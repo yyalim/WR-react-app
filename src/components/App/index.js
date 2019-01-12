@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleGetUsers } from '../../actions/users'
+import Navbar from '../Navbar/'
 
 class App extends Component {
   componentDidMount() {
@@ -11,9 +13,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        App
-      </div>
+      <Router>
+        <Fragment>
+          <Navbar />
+          App
+        </Fragment>
+      </Router>
     )
   }
 }
