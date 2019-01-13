@@ -17,6 +17,12 @@ const NavbarItem = ({ text, path, exact }) => {
   )
 }
 
+NavbarItem.propTypes = {
+  exact: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired
+}
+
 NavbarItem.defaultProps = {
   exact: false
 }
