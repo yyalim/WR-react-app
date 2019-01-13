@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import HomePage from '../HomePage'
 import NewQuestionPage from '../NewQuestionPage'
 import LeaderBoardPage from '../LeaderBoardPage'
