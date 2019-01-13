@@ -1,9 +1,37 @@
 import React from 'react'
+import { Avatar, Paper, Typography } from '@material-ui/core';
+import { LockOutlined } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles'
+import LoginForm from './LoginForm'
 
-const LoginPage = props => (
-  <div>
-    LoginPage
-  </div>
+const styles = theme => ({
+  paper: {
+    width: '400px',
+    margin: '0 auto',
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
+  }
+});
+
+const LoginPage = ({ classes }) => (
+  <Paper className={classes.paper}>
+    <Avatar className={classes.avatar}>
+      <LockOutlined />
+    </Avatar>
+    <Typography component="h1" variant="h5">
+      Sign in
+    </Typography>
+    <LoginForm />
+  </Paper>
 )
 
-export default LoginPage
+const styledLoginPage = withStyles(styles)(LoginPage)
+
+export default styledLoginPage
