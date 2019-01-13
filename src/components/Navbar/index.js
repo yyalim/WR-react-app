@@ -10,7 +10,7 @@ const Navbar = ({ LoadingBar }) => {
   ]
 
   return (
-    <AppBar>
+    <AppBar position="relative">
       <LoadingBar />
       <Toolbar>
         {navbarItems.map(item => <NavbarItem {...item} />)}

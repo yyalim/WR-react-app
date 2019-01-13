@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleGetUsers } from '../../actions/users'
+import { CssBaseline } from '@material-ui/core'
 import LoadingBar from 'react-redux-loading'
-import Navbar from '../Navbar/'
+import Navbar from '../Navbar'
+import Routes from '../Routes'
 
 class App extends Component {
   componentDidMount() {
@@ -16,8 +18,11 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Navbar LoadingBar={LoadingBar}/>
-          App
+          <CssBaseline />
+          <Navbar LoadingBar={LoadingBar} />
+          <main>
+            <Routes />
+          </main>
         </Fragment>
       </Router>
     )
