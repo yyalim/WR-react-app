@@ -1,8 +1,19 @@
 import React from 'react'
-import { AppBar, Toolbar } from '@material-ui/core'
+import { AppBar, Toolbar, Button} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import NavbarItem from './NavbarItem'
+import UserInfo from './UserInfo'
 
-const Navbar = ({ LoadingBar }) => {
+const styles = theme => ({
+  toolbar: {
+    justifyContent: 'space-between'
+  },
+  navLinks: {
+    display: 'flex'
+  }
+})
+
+const Navbar = ({ LoadingBar, classes }) => {
   const navbarItems = [
     { key: 'home', text: 'Home', path: '/', exact: true },
     { key: 'add', text: 'New Question', path: '/add' },
@@ -10,13 +21,16 @@ const Navbar = ({ LoadingBar }) => {
   ]
 
   return (
-    <AppBar position="relative">
+    <AppBar position="relative" className={classes.appBar}>
       <LoadingBar />
-      <Toolbar>
-        {navbarItems.map(item => <NavbarItem {...item} />)}
+      <Toolbar className={classes.toolbar}>
+        <div className={classes.navLinks}>
+          {navbarItems.map(item => <NavbarItem {...item} />)}
+        </div>
+        <UserInfo />
       </Toolbar>
     </AppBar>
   )
 }
 
-export default Navbar
+export default withStyles(styles)(Navbar)
