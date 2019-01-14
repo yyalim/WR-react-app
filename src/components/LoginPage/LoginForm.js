@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { handleLogin } from '../../actions/authedUser'
 import { Button, FormControl } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import UserSelect from './UserSelect'
@@ -25,12 +26,22 @@ class LoginForm extends Component {
     }))
   }
 
+  handleSubmit = event => {
+    event.preventDefault()
+
+    const { dispatch } = this.props
+    const { selectedUser } = this.state
+
+    dispatch(handleLogin(selectedUser))
+  }
+
   render() {
     const { classes, users } = this.props
     const { selectedUser } = this.state
+    const isUserSelected = selectedUser !== ''
 
     return (
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={this.handleSubmit}>
         <FormControl margin="normal" required fullWidth>
           <UserSelect
             users={users}
@@ -44,6 +55,7 @@ class LoginForm extends Component {
           variant="contained"
           color="primary"
           className={classes.submit}
+          disabled={!isUserSelected}
         >
           Sign in
       </Button>
