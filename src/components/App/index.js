@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { handleGetUsers } from '../../actions/users'
+import { handleLogin } from '../../actions/authedUser'
+import ls from '../../utils/localStorageHelper'
 import { CssBaseline } from '@material-ui/core'
 import LoadingBar from 'react-redux-loading'
 import Navbar from '../Navbar'
@@ -10,8 +11,9 @@ import Routes from '../Routes'
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props
+    const authedUserId = ls.getAuthedUserId()
 
-    dispatch(handleGetUsers())
+    authedUserId !== null && dispatch(handleLogin(authedUserId))
   }
 
   render() {
@@ -29,8 +31,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ loadingBar }) => ({
-  loading: loadingBar.default
+const mapStateToProps = ({ authedUser, loadingBar }, ...props) => ({
+  authedUser,
+  loading: loadingBar.default,
+  ...props
 })
 
 export default connect(mapStateToProps)(App)

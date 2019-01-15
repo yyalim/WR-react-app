@@ -13,6 +13,7 @@ const Routes = props => (
     <PrivateRoute path="/add" component={NewQuestionPage} />
     <PrivateRoute path="/leaderboard" component={LeaderBoardPage} />
     <PrivateRoute path="/question/:question_id" component={QuestionPage} />
+    <Route path="/login" component={LoginPage} />
   </Fragment>
 )
 

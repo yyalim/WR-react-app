@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { handleGetUsers } from '../../actions/users'
 import { Avatar, Paper, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
@@ -20,18 +23,41 @@ const styles = theme => ({
   }
 });
 
-const LoginPage = ({ classes }) => (
-  <Paper className={classes.paper}>
-    <Avatar className={classes.avatar}>
-      <LockOutlined />
-    </Avatar>
-    <Typography component="h1" variant="h5">
-      Sign in
-    </Typography>
-    <LoginForm />
-  </Paper>
-)
+class LoginPage extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+
+    dispatch(handleGetUsers())
+  }
+
+  render() {
+    const { classes, isAuthed } = this.props
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+
+    if (isAuthed) {
+      return <Redirect to={from} />
+    }
+
+    return (
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlined />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <LoginForm />
+      </Paper>
+    )
+  }
+}
 
 const styledLoginPage = withStyles(styles)(LoginPage)
 
-export default styledLoginPage
+const mapStateToProps = ({ users, authedUser }, props) => ({
+  users,
+  isAuthed: authedUser !== null,
+  ...props
+})
+
+export default connect(mapStateToProps)(styledLoginPage)

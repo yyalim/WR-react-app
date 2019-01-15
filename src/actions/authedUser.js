@@ -1,12 +1,13 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { login, logout } from '../utils/api'
+import ls from '../utils/localStorageHelper'
 
 export const ADD_AUTHED_USER = 'ADD_AUTHED_USER'
 export const REMOVE_AUTHED_USER = 'REMOVE_AUTHED_USER'
 
-const addAuthedUser = id => ({
+const addAuthedUser = user => ({
   type: ADD_AUTHED_USER,
-  id
+  user
 })
 
 const removeAuthedUser = () => ({
@@ -17,7 +18,8 @@ export const handleLogin = id => dispatch => {
   dispatch(showLoading())
   return login(id)
     .then((user) => {
-      dispatch(addAuthedUser(user.id))
+      dispatch(addAuthedUser(user))
+      ls.saveAuthedUserId(user.id)
       dispatch(hideLoading())
     })
     .catch((error) => {
@@ -34,6 +36,7 @@ export const handleLogout = () => dispatch => {
   return logout()
     .then(() => {
       dispatch(removeAuthedUser())
+      ls.removeAuthedUserId()
       dispatch(hideLoading())
     })
 }

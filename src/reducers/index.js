@@ -5,7 +5,7 @@ import { loadingBarReducer } from 'react-redux-loading'
 
 const rootReducer = combineReducers({
   users,
-  authedUserId: authedUser,
+  authedUser,
   loadingBar: loadingBarReducer
 })
 

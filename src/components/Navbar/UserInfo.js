@@ -22,8 +22,8 @@ class UserInfo extends Component {
   }
 }
 
-const mapStateToProps = ({ users, authedUserId }, props) => ({
-  user: users[authedUserId],
+const mapStateToProps = ({ authedUser }, props) => ({
+  user: authedUser,
   ...props
 })
 
