@@ -1,0 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
+main {
+  height: calc(100% - 64px);
+}

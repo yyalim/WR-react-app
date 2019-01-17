@@ -22,9 +22,11 @@ class UserInfo extends Component {
   }
 }
 
-const mapStateToProps = ({ authedUser }, props) => ({
-  user: authedUser,
-  ...props
-})
+const mapStateToProps = ({ loadingBar, authedUser }, props) => {
+  return {
+    user: authedUser,
+    ...props
+  }
+}
 
 export default connect(mapStateToProps)(UserInfo)

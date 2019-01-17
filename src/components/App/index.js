@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin } from '../../actions/authedUser'
+import { LOGIN_LOADING } from '../../reducers/loadingViews'
 import ls from '../../utils/localStorageHelper'
 import { CssBaseline } from '@material-ui/core'
-import LoadingBar from 'react-redux-loading'
 import Navbar from '../Navbar'
 import Routes from '../Routes'
+import LoadingIndicator from '../Shared/LoadingIndicator'
 
 class App extends Component {
   componentDidMount() {
@@ -17,11 +18,17 @@ class App extends Component {
   }
 
   render() {
+    const { isLoading } = this.props
+
+    if(isLoading) {
+      return <LoadingIndicator />
+    }
+
     return (
       <Router>
         <Fragment>
           <CssBaseline />
-          <Navbar LoadingBar={LoadingBar} />
+          <Navbar />
           <main>
             <Routes />
           </main>
@@ -31,9 +38,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ authedUser, loadingBar }, ...props) => ({
+const mapStateToProps = ({ authedUser, loadingViews }, ...props) => ({
   authedUser,
-  loading: loadingBar.default,
+  isLoading: loadingViews.includes(LOGIN_LOADING),
   ...props
 })
 

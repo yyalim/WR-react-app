@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleLogin } from '../../actions/authedUser'
+import { USERS_LOADING } from '../../reducers/loadingViews'
 import { Button, FormControl } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import UserSelect from './UserSelect'
+import LoadingIndicator from '../Shared/LoadingIndicator'
 
 const styles = theme => ({
   form: {
@@ -36,18 +38,21 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { classes, users } = this.props
+    const { classes, users, isLoading } = this.props
     const { selectedUser } = this.state
     const isUserSelected = selectedUser !== ''
 
     return (
       <form className={classes.form} onSubmit={this.handleSubmit}>
         <FormControl margin="normal" required fullWidth>
-          <UserSelect
-            users={users}
-            selectedUser={selectedUser}
-            handleChangeUser={this.handleChangeUser}
-          />
+          {isLoading
+            ? <LoadingIndicator />
+            : <UserSelect
+                users={users}
+                selectedUser={selectedUser}
+                handleChangeUser={this.handleChangeUser}
+              />
+          }
         </FormControl>
         <Button
           type="submit"
@@ -64,10 +69,15 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = ({ users }, props) => ({
-  users: Object.keys(users).map(id => users[id]),
-  ...props
-})
+const mapStateToProps = ({ users, loadingViews }, props) => {
+  const userIds = Object.keys(users)
+
+  return {
+    users: userIds.map(id => users[id]),
+    isLoading: loadingViews.includes(USERS_LOADING),
+    ...props
+  }
+}
 
 const StyledLoginForm = withStyles(styles)(LoginForm)
 

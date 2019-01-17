@@ -13,7 +13,7 @@ const styles = theme => ({
   }
 })
 
-const Navbar = ({ LoadingBar, classes }) => {
+const Navbar = ({ classes }) => {
   const navbarItems = [
     { key: 'home', text: 'Home', path: '/', exact: true },
     { key: 'add', text: 'New Question', path: '/add' },
@@ -22,7 +22,6 @@ const Navbar = ({ LoadingBar, classes }) => {
 
   return (
     <AppBar position="relative" className={classes.appBar}>
-      <LoadingBar />
       <Toolbar className={classes.toolbar}>
         <div className={classes.navLinks}>
           {navbarItems.map(item => <NavbarItem {...item} />)}

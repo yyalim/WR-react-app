@@ -6,7 +6,6 @@ import { Avatar, Paper, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
 import LoginForm from './LoginForm'
-import LoadingIndicator from '../Shared/LoadingIndicator'
 
 const styles = theme => ({
   paper: {
@@ -35,19 +34,11 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { classes, isAuthed, isUsersLoaded } = this.props
+    const { classes, isAuthed } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/' } }
 
     if (isAuthed) {
       return <Redirect to={from} />
-    }
-
-    if(isUsersLoaded) {
-      return (
-        <Paper className={[classes.paper, classes.emptyPaper]}>
-          <LoadingIndicator />
-        </Paper>
-      )
     }
 
     return (
@@ -66,8 +57,7 @@ class LoginPage extends Component {
 
 const styledLoginPage = withStyles(styles)(LoginPage)
 
-const mapStateToProps = ({ users, authedUser }, props) => ({
-  isUsersLoaded: Object.keys(users).length === 0,
+const mapStateToProps = ({ authedUser }, props) => ({
   isAuthed: authedUser !== null,
   ...props
 })
