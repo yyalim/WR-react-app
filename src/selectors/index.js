@@ -1,0 +1,35 @@
+import { createSelector } from 'reselect'
+
+const getAuthedUser = state => state.authedUser
+const getQuestions = state => state.questions
+
+// Returns answered or unanswered questions of authed user by answered property
+const questionIds = ({ authedUser, questions, answered }) => {
+  const authedUserId = authedUser.id
+  const questionIds = Object.keys(questions)
+
+  return questionIds.filter(questionId => {
+    const question = questions[questionId]
+    const optionOneVoters = question.optionOne.votes
+    const optionTwoVoters = question.optionTwo.votes
+    const voters = [...optionOneVoters, ...optionTwoVoters]
+
+    return answered
+      ? voters.includes(authedUserId)
+      : !voters.includes(authedUserId)
+  })
+}
+
+export const getAnsweredQuestionIds = createSelector(
+  [getAuthedUser, getQuestions],
+  (authedUser, questions) => questionIds({
+    authedUser, questions, answered: true
+  })
+)
+
+export const getUnansweredQuestionIds = createSelector(
+  [getAuthedUser, getQuestions],
+  (authedUser, questions) => questionIds({
+    authedUser, questions, answered: false
+  })
+)
