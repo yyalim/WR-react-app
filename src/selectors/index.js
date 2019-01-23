@@ -8,16 +8,20 @@ const questionIds = ({ authedUser, questions, answered }) => {
   const authedUserId = authedUser.id
   const questionIds = Object.keys(questions)
 
-  return questionIds.filter(questionId => {
-    const question = questions[questionId]
-    const optionOneVoters = question.optionOne.votes
-    const optionTwoVoters = question.optionTwo.votes
-    const voters = [...optionOneVoters, ...optionTwoVoters]
+  return questionIds
+    // filter answered or unanswered questions
+    .filter(questionId => {
+      const question = questions[questionId]
+      const optionOneVoters = question.optionOne.votes
+      const optionTwoVoters = question.optionTwo.votes
+      const voters = [...optionOneVoters, ...optionTwoVoters]
 
-    return answered
-      ? voters.includes(authedUserId)
-      : !voters.includes(authedUserId)
-  })
+      return answered
+        ? voters.includes(authedUserId)
+        : !voters.includes(authedUserId)
+    })
+    // order by timestamp, descending
+    .sort((a, b) => questions[b].timestamp - questions[a].timestamp)
 }
 
 export const getAnsweredQuestionIds = createSelector(

@@ -8,6 +8,15 @@ import { CssBaseline } from '@material-ui/core'
 import Navbar from '../Navbar'
 import Routes from '../Routes'
 import LoadingIndicator from '../Shared/LoadingIndicator'
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  main: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: theme.spacing.unit * 8
+  }
+})
 
 class App extends Component {
   componentDidMount() {
@@ -18,7 +27,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoading } = this.props
+    const { isLoading, classes } = this.props
 
     if(isLoading) {
       return <LoadingIndicator />
@@ -29,7 +38,7 @@ class App extends Component {
         <Fragment>
           <CssBaseline />
           <Navbar />
-          <main>
+          <main className={classes.main}>
             <Routes />
           </main>
         </Fragment>
@@ -44,4 +53,6 @@ const mapStateToProps = ({ authedUser, loadingViews }, ...props) => ({
   ...props
 })
 
-export default connect(mapStateToProps)(App)
+const connectedApp = connect(mapStateToProps)(App)
+
+export default withStyles(styles)(connectedApp)
