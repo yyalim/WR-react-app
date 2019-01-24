@@ -25,27 +25,21 @@ const loadingViews = (state = [], action) => {
         LOGIN_LOADING
       ]
     case HIDE_LOGIN_LOADING:
-      return [
-        state.filter(view => view !== LOGIN_LOADING ),
-      ]
+      return state.filter(view => view !== LOGIN_LOADING)
     case SHOW_USERS_LOADING:
       return [
         ...state,
         USERS_LOADING
       ]
     case HIDE_USERS_LOADING:
-      return [
-        state.filter(view => view !== USERS_LOADING ),
-      ]
+      return state.filter(view => view !== USERS_LOADING)
     case SHOW_QUESTIONS_LOADING:
       return [
         ...state,
         QUESTIONS_LOADING
       ]
     case HIDE_QUESTIONS_LOADING:
-      return [
-        state.filter(view => view !== QUESTIONS_LOADING ),
-      ]
+      return state.filter(view => view !== QUESTIONS_LOADING)
     default:
       return state
   }
