@@ -22,8 +22,7 @@ function TabContainer({ children, dir }) {
 
 const styles = theme => ({
   root: {
-    width: 800,
-    border: '1px solid #dedede'
+    width: '800px'
   },
 })
 

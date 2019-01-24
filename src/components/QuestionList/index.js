@@ -1,11 +1,5 @@
 import React, { Fragment } from 'react'
-
-const Question = ({ question }) => (
-  <div>
-    { question.id } -
-    { question.timestamp }
-  </div>
-)
+import Question from './Question'
 
 const QuestionList = ({ questions, questionIds }) => (
   <Fragment>

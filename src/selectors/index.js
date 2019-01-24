@@ -2,6 +2,8 @@ import { createSelector } from 'reselect'
 
 const getAuthedUser = state => state.authedUser
 const getQuestions = state => state.questions
+const getUsers = state => state.users
+const getQuestion = (state, questionId) => state.questions[questionId]
 
 // Returns answered or unanswered questions of authed user by answered property
 const questionIds = ({ authedUser, questions, answered }) => {
@@ -36,4 +38,9 @@ export const getUnansweredQuestionIds = createSelector(
   (authedUser, questions) => questionIds({
     authedUser, questions, answered: false
   })
+)
+
+export const getAuthor = createSelector(
+  [getUsers, getQuestion],
+  (users, question) => users[question.author]
 )
