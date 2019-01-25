@@ -4,7 +4,7 @@ export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const SHOW_USERS_LOADING = 'SHOW_USERS_LOADING'
 export const HIDE_USERS_LOADING = 'HIDE_USERS_LOADING'
 
-const receiveUsers = users => ({
+export const receiveUsers = users => ({
   type: RECEIVE_USERS,
   users
 })

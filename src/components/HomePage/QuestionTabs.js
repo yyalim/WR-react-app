@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { handleGetQuestions } from '../../actions/questions'
+import { handleGetUsersAndQuestions } from '../../actions/shared'
 import {
   getAnsweredQuestionIds,
   getUnansweredQuestionIds
 } from '../../selectors'
-import { QUESTIONS_LOADING } from '../../reducers/loadingViews';
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableViews from 'react-swipeable-views'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
@@ -29,6 +28,7 @@ const styles = theme => ({
 class QuestionTabs extends React.Component {
   state = {
     value: 0,
+    isLoading: true
   }
 
   handleChange = (event, value) => {
@@ -40,9 +40,12 @@ class QuestionTabs extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
+    const { handleGetUsersAndQuestions } = this.props
 
-    dispatch(handleGetQuestions())
+    const stopLoading = () => this.setState(() => ({ isLoading: false }))
+
+    handleGetUsersAndQuestions()
+      .then(stopLoading)
   }
 
   render() {
@@ -52,8 +55,9 @@ class QuestionTabs extends React.Component {
       questions,
       unAnsweredQuestionIds,
       answeredQuestionIds,
-      isLoading
     } = this.props;
+
+    const { isLoading } = this.state
 
     if(isLoading) {
       return <LoadingIndicator />
@@ -97,17 +101,22 @@ class QuestionTabs extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { questions, loadingViews } = state
+  const { questions } = state
 
   return ({
     answeredQuestionIds: getAnsweredQuestionIds(state),
     unAnsweredQuestionIds: getUnansweredQuestionIds(state),
     questions,
-    isLoading: loadingViews.includes(QUESTIONS_LOADING),
     ...ownProps
   })
 }
 
-const connectedQuestionTabs = connect(mapStateToProps)(QuestionTabs)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleGetUsersAndQuestions: () => dispatch(handleGetUsersAndQuestions())
+})
+
+const connectedQuestionTabs = connect(
+  mapStateToProps, mapDispatchToProps
+)(QuestionTabs)
 
 export default withStyles(styles, { withTheme: true })(connectedQuestionTabs)

@@ -7,6 +7,16 @@ export const getUsers = () => _getUsers()
 
 export const getQuestions = () => _getQuestions()
 
+export const getUsersAndQuestions = () => (
+  Promise.all([
+    _getUsers(),
+    _getQuestions()
+  ]).then(([users, questions]) => ({
+    users,
+    questions
+  }))
+)
+
 export const login = id => (
   new Promise((resolve, reject) => {
     getUsers()
