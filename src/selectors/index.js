@@ -44,3 +44,19 @@ export const getAuthor = createSelector(
   [getUsers, getQuestion],
   (users, question) => users[question.author]
 )
+
+export const getQuestionDetails = createSelector(
+  [getAuthedUser, getQuestion],
+  (authedUser, question) => {
+    const authedUserId = authedUser.id
+    const optionOneVoters = question.optionOne.votes
+    const optionTwoVoters = question.optionTwo.votes
+    const voters = [...optionOneVoters, ...optionTwoVoters]
+    const isAnswered = voters.includes(authedUserId)
+
+    return {
+      ...question,
+      isAnswered
+    }
+  }
+)

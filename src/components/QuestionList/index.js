@@ -4,7 +4,7 @@ import Question from './Question'
 const QuestionList = ({ questions, questionIds }) => (
   <Fragment>
     { questionIds.map(questionId =>
-      <Question question={questions[questionId]} />
+      <Question key={questionId} question={questions[questionId]} />
     )}
   </Fragment>
 )
