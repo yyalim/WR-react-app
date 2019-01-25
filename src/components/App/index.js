@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin } from '../../actions/authedUser'
-import { LOGIN_LOADING } from '../../reducers/loadingViews'
 import ls from '../../utils/localStorageHelper'
 import { CssBaseline } from '@material-ui/core'
 import Navbar from '../Navbar'
@@ -19,15 +18,24 @@ const styles = theme => ({
 })
 
 class App extends Component {
+  state = {
+    isLoading: true
+  }
+
   componentDidMount() {
-    const { dispatch } = this.props
+    const { handleLogin } = this.props
     const authedUserId = ls.getAuthedUserId()
 
-    authedUserId !== null && dispatch(handleLogin(authedUserId))
+    const stopLoading = () => this.setState(() => ({ isLoading: false }))
+
+    authedUserId !== null
+      ? handleLogin(authedUserId).then(stopLoading)
+      : stopLoading()
   }
 
   render() {
-    const { isLoading, classes } = this.props
+    const { classes } = this.props
+    const { isLoading } = this.state
 
     if(isLoading) {
       return <LoadingIndicator />
@@ -49,10 +57,13 @@ class App extends Component {
 
 const mapStateToProps = ({ authedUser, loadingViews }, ...props) => ({
   authedUser,
-  isLoading: loadingViews.includes(LOGIN_LOADING),
   ...props
 })
 
-const connectedApp = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleLogin: id => dispatch(handleLogin(id))
+})
+
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
 export default withStyles(styles)(connectedApp)
