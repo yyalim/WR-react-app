@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { handleGetUsers } from '../../actions/users'
 import { Avatar, Paper, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
@@ -10,14 +9,12 @@ import LoginForm from './LoginForm'
 const styles = theme => ({
   paper: {
     width: '400px',
+    height: '300px',
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  emptyPaper: {
-    minHeight: '400px'
   },
   avatar: {
     margin: theme.spacing.unit,
@@ -26,12 +23,6 @@ const styles = theme => ({
 });
 
 class LoginPage extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props
-
-    dispatch(handleGetUsers())
-  }
-
   render() {
     const { classes, isAuthed } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/' } }

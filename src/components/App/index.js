@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin } from '../../actions/authedUser'
+import { stopLoading } from '../../utils/helpers'
 import ls from '../../utils/localStorageHelper'
 import { CssBaseline } from '@material-ui/core'
 import Navbar from '../Navbar'
@@ -26,11 +27,9 @@ class App extends Component {
     const { handleLogin } = this.props
     const authedUserId = ls.getAuthedUserId()
 
-    const stopLoading = () => this.setState(() => ({ isLoading: false }))
-
     authedUserId !== null
-      ? handleLogin(authedUserId).then(stopLoading)
-      : stopLoading()
+      ? handleLogin(authedUserId).then(stopLoading.bind(this))
+      : stopLoading.apply(this)
   }
 
   render() {

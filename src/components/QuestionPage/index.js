@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleGetQuestionAndAuthor } from '../../actions/shared'
+import { stopLoading } from '../../utils/helpers'
 import QuestionDetails from './QuestionDetails'
 import LoadingIndicator from '../Shared/LoadingIndicator'
 
@@ -12,10 +13,8 @@ class QuestionPage extends Component {
   componentDidMount() {
     const { handleGetQuestionAndAuthor, questionId } = this.props
 
-    const stopLoading = () => this.setState(() => ({ isLoading: false }))
-
     handleGetQuestionAndAuthor(questionId)
-      .then(stopLoading)
+      .then(stopLoading.bind(this))
       .catch(err => console.log(err))
   }
 

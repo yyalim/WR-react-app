@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleLogin } from '../../actions/authedUser'
-import { USERS_LOADING } from '../../reducers/loadingViews'
+import { handleGetUsers } from '../../actions/users'
+import { stopLoading, startLoading } from '../../utils/helpers'
 import { Button, FormControl } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import UserSelect from './UserSelect'
@@ -19,7 +20,8 @@ const styles = theme => ({
 
 class LoginForm extends Component {
   state = {
-    selectedUser: ''
+    selectedUser: '',
+    isLoading: true
   }
 
   handleChangeUser = (selectedUser) => {
@@ -31,28 +33,38 @@ class LoginForm extends Component {
   handleSubmit = event => {
     event.preventDefault()
 
-    const { dispatch } = this.props
+    const { handleLogin } = this.props
     const { selectedUser } = this.state
 
-    dispatch(handleLogin(selectedUser))
+    startLoading.apply(this)
+
+    handleLogin(selectedUser)
+  }
+
+  componentDidMount() {
+    const { handleGetUsers } = this.props
+
+    handleGetUsers()
+      .then(stopLoading.bind(this))
   }
 
   render() {
-    const { classes, users, isLoading } = this.props
-    const { selectedUser } = this.state
+    const { classes, users  } = this.props
+    const { selectedUser, isLoading } = this.state
     const isUserSelected = selectedUser !== ''
+
+    if(isLoading) {
+      return <LoadingIndicator />
+    }
 
     return (
       <form className={classes.form} onSubmit={this.handleSubmit}>
         <FormControl margin="normal" required fullWidth>
-          {isLoading
-            ? <LoadingIndicator />
-            : <UserSelect
-                users={users}
-                selectedUser={selectedUser}
-                handleChangeUser={this.handleChangeUser}
-              />
-          }
+          <UserSelect
+            users={users}
+            selectedUser={selectedUser}
+            handleChangeUser={this.handleChangeUser}
+          />
         </FormControl>
         <Button
           type="submit"
@@ -69,16 +81,20 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = ({ users, loadingViews }, props) => {
+const mapStateToProps = ({ users }, ownProps) => {
   const userIds = Object.keys(users)
 
   return {
     users: userIds.map(id => users[id]),
-    isLoading: loadingViews.includes(USERS_LOADING),
-    ...props
+    ...ownProps
   }
 }
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleGetUsers: () => dispatch(handleGetUsers()),
+  handleLogin: (selectedUser) => dispatch(handleLogin(selectedUser))
+})
+
 const StyledLoginForm = withStyles(styles)(LoginForm)
 
-export default connect(mapStateToProps)(StyledLoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(StyledLoginForm)

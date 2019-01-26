@@ -5,6 +5,7 @@ import {
   getAnsweredQuestionIds,
   getUnansweredQuestionIds
 } from '../../selectors'
+import { stopLoading } from '../../utils/helpers'
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableViews from 'react-swipeable-views'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
@@ -42,10 +43,9 @@ class QuestionTabs extends React.Component {
   componentDidMount() {
     const { handleGetUsersAndQuestions } = this.props
 
-    const stopLoading = () => this.setState(() => ({ isLoading: false }))
 
     handleGetUsersAndQuestions()
-      .then(stopLoading)
+      .then(stopLoading.bind(this))
   }
 
   render() {
