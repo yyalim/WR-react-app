@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Avatar, Paper, Typography } from '@material-ui/core';
@@ -22,27 +22,24 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends Component {
-  render() {
-    const { classes, isAuthed } = this.props
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+const LoginPage = ({ classes, isAuthed, ...props }) => {
+  const { from } = props.location.state || { from: { pathname: '/' } }
 
-    if (isAuthed) {
-      return <Redirect to={from} />
-    }
-
-    return (
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <LoginForm />
-      </Paper>
-    )
+  if (isAuthed) {
+    return <Redirect to={from} />
   }
+
+  return (
+    <Paper className={classes.paper}>
+      <Avatar className={classes.avatar}>
+        <LockOutlined />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign in
+        </Typography>
+      <LoginForm />
+    </Paper>
+  )
 }
 
 const styledLoginPage = withStyles(styles)(LoginPage)

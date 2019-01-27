@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { handleGetQuestionAndAuthor } from '../../actions/shared'
 import { stopLoading } from '../../utils/helpers'
 import QuestionDetails from './QuestionDetails'
-import LoadingIndicator from '../Shared/LoadingIndicator'
+import Wait from '../Shared/Wait'
 
 class QuestionPage extends Component {
   state = {
@@ -22,11 +22,11 @@ class QuestionPage extends Component {
     const { questionId } = this.props
     const { isLoading } = this.state
 
-    if(isLoading) {
-      return <LoadingIndicator />
-    }
-
-    return <QuestionDetails questionId={questionId} />
+    return (
+      <Wait isWaiting={isLoading}>
+        <QuestionDetails questionId={questionId} />
+      </Wait>
+    )
   }
 }
 

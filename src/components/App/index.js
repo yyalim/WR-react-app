@@ -7,8 +7,8 @@ import ls from '../../utils/localStorageHelper'
 import { CssBaseline } from '@material-ui/core'
 import Navbar from '../Navbar'
 import Routes from '../Routes'
-import LoadingIndicator from '../Shared/LoadingIndicator'
-import { withStyles } from '@material-ui/core/styles';
+import Wait from '../Shared/Wait'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   main: {
@@ -36,25 +36,23 @@ class App extends Component {
     const { classes } = this.props
     const { isLoading } = this.state
 
-    if(isLoading) {
-      return <LoadingIndicator />
-    }
-
     return (
-      <Router>
-        <Fragment>
-          <CssBaseline />
-          <Navbar />
-          <main className={classes.main}>
-            <Routes />
-          </main>
-        </Fragment>
-      </Router>
+      <Wait isWaiting={isLoading}>
+        <Router>
+          <Fragment>
+            <CssBaseline />
+            <Navbar />
+            <main className={classes.main}>
+              <Routes />
+            </main>
+          </Fragment>
+        </Router>
+      </Wait>
     )
   }
 }
 
-const mapStateToProps = ({ authedUser, loadingViews }, ...props) => ({
+const mapStateToProps = ({ authedUser }, ...props) => ({
   authedUser,
   ...props
 })

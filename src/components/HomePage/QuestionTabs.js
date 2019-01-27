@@ -9,7 +9,7 @@ import { stopLoading } from '../../utils/helpers'
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableViews from 'react-swipeable-views'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import LoadingIndicator from '../Shared/LoadingIndicator'
+import Wait from '../Shared/Wait'
 import QuestionList from '../QuestionList'
 
 function TabContainer({ children, dir }) {
@@ -59,43 +59,41 @@ class QuestionTabs extends React.Component {
 
     const { isLoading } = this.state
 
-    if(isLoading) {
-      return <LoadingIndicator />
-    }
-
     return (
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
+      <Wait isWaiting={isLoading}>
+        <div className={classes.root}>
+          <AppBar position="static" color="default">
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="fullWidth"
+            >
+              <Tab label="Unanswered Questions" />
+              <Tab label="Answered Questions" />
+            </Tabs>
+          </AppBar>
+          <SwipeableViews
+            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+            index={this.state.value}
+            onChangeIndex={this.handleChangeIndex}
           >
-            <Tab label="Unanswered Questions" />
-            <Tab label="Answered Questions" />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          <TabContainer dir={theme.direction}>
-            <QuestionList
-              questions={questions}
-              questionIds={unAnsweredQuestionIds}
-            />
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
-            <QuestionList
-              questions={questions}
-              questionIds={answeredQuestionIds}
-            />
-          </TabContainer>
-        </SwipeableViews>
-      </div>
+            <TabContainer dir={theme.direction}>
+              <QuestionList
+                questions={questions}
+                questionIds={unAnsweredQuestionIds}
+              />
+            </TabContainer>
+            <TabContainer dir={theme.direction}>
+              <QuestionList
+                questions={questions}
+                questionIds={answeredQuestionIds}
+              />
+            </TabContainer>
+          </SwipeableViews>
+        </div>
+      </Wait>
     )
   }
 }

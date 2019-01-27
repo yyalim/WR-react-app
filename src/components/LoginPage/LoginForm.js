@@ -6,7 +6,7 @@ import { stopLoading, startLoading } from '../../utils/helpers'
 import { Button, FormControl } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import UserSelect from './UserSelect'
-import LoadingIndicator from '../Shared/LoadingIndicator'
+import Wait from '../Shared/Wait'
 
 const styles = theme => ({
   form: {
@@ -53,30 +53,28 @@ class LoginForm extends Component {
     const { selectedUser, isLoading } = this.state
     const isUserSelected = selectedUser !== ''
 
-    if(isLoading) {
-      return <LoadingIndicator />
-    }
-
     return (
-      <form className={classes.form} onSubmit={this.handleSubmit}>
-        <FormControl margin="normal" required fullWidth>
-          <UserSelect
-            users={users}
-            selectedUser={selectedUser}
-            handleChangeUser={this.handleChangeUser}
-          />
-        </FormControl>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          disabled={!isUserSelected}
-        >
-          Sign in
-      </Button>
-      </form>
+      <Wait isWaiting={isLoading}>
+        <form className={classes.form} onSubmit={this.handleSubmit}>
+          <FormControl margin="normal" required fullWidth>
+            <UserSelect
+              users={users}
+              selectedUser={selectedUser}
+              handleChangeUser={this.handleChangeUser}
+            />
+          </FormControl>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={!isUserSelected}
+          >
+            Sign in
+          </Button>
+        </form>
+      </Wait>
     )
   }
 }
