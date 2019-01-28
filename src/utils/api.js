@@ -28,7 +28,11 @@ const getQuestion = (id) => (
 
         question
           ? resolve(question)
-          : reject('Question not found')
+          : reject({
+              error: 'NotFound',
+              status: 404,
+              message: 'Question not found'
+            })
       })
   })
 )
@@ -45,13 +49,15 @@ export const getUsersAndQuestions = () => (
 
 export const getQuestionAndAuthor = (id) => (
   new Promise((resolve, reject) => {
-    getQuestion(id).then(question => {
-      const authorId = question.author
+    getQuestion(id)
+      .then(question => {
+        const authorId = question.author
 
-      getUser(authorId).then(author => {
-        resolve({ question, author })
+        getUser(authorId).then(author => {
+          resolve({ question, author })
+        })
       })
-    })
+      .catch(error => reject(error))
   })
 )
 

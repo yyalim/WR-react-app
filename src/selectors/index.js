@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { voteCountToPercentage } from '../utils/helpers'
 
 const getAuthedUser = state => state.authedUser
 const getQuestions = state => state.questions
@@ -54,9 +55,21 @@ export const getQuestionDetails = createSelector(
     const voters = [...optionOneVoters, ...optionTwoVoters]
     const isAnswered = voters.includes(authedUserId)
 
+    const optionOneCount = question.optionOne.votes.length
+    const optionTwoCount = question.optionTwo.votes.length
+
+    console.log(optionOneCount)
+    console.log(optionTwoCount)
+
+    const votesPercentage = voteCountToPercentage({
+      optionOneCount,
+      optionTwoCount
+    })
+
     return {
       ...question,
-      isAnswered
+      ...votesPercentage,
+      isAnswered,
     }
   }
 )

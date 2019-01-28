@@ -11,11 +11,14 @@ class QuestionPage extends Component {
   }
 
   componentDidMount() {
-    const { handleGetQuestionAndAuthor, questionId } = this.props
+    const { handleGetQuestionAndAuthor, questionId, history } = this.props
 
     handleGetQuestionAndAuthor(questionId)
       .then(stopLoading.bind(this))
-      .catch(err => console.log(err))
+      .catch(error => {
+        // if question does not exists, redirect to NotFoundPage
+        error.status === 404 && history.push(`/404`)
+      })
   }
 
   render() {

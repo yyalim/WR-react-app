@@ -10,3 +10,14 @@ export const stopLoading = function() {
 export const startLoading = function() {
   this.setState(() => ({ isLoading: true }))
 }
+
+export const voteCountToPercentage = ({ optionOneCount, optionTwoCount }) => {
+  const totalVotes = optionOneCount + optionTwoCount
+  const optionOnePercentage = (optionOneCount / totalVotes) * 100
+  const optionTwoPercentage = 100 - optionOnePercentage
+
+  return {
+    optionOnePercentage,
+    optionTwoPercentage
+  }
+}
