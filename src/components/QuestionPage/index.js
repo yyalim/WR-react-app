@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleGetQuestionAndAuthor } from '../../actions/shared'
-import { stopLoading } from '../../utils/helpers'
+import { stopLoading } from '../../utils/componentHelpers'
 import QuestionDetails from './QuestionDetails'
 import Wait from '../Shared/Wait'
 

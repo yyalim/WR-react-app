@@ -5,7 +5,7 @@ import {
   getAnsweredQuestionIds,
   getUnansweredQuestionIds
 } from '../../selectors'
-import { stopLoading } from '../../utils/helpers'
+import { stopLoading } from '../../utils/componentHelpers'
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableViews from 'react-swipeable-views'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
