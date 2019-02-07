@@ -1,17 +1,15 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
-  Card, CardContent, CardMedia, Typography, Button
+  Card, CardContent, CardMedia, Typography
 } from '@material-ui/core'
-
-import PercentageMeter from '../Shared/PercentageMeter'
+import Option from './Option'
 
 const styles = theme => ({
   card: {
     display: 'flex',
     margin: '8px',
     width: '800px',
-    height: '235px',
     flexDirection: 'column'
   },
   userName: {
@@ -39,14 +37,6 @@ const styles = theme => ({
   }
 })
 
-const Option = ({ text, percentage }) => (
-  <div>
-    <Typography variant="subtitle1" color="textSecondary">
-      ...{text}...
-    </Typography>
-    <PercentageMeter percent={percentage} />
-  </div>
-)
 
 const AnsweredQuestion = ({ question, author, classes }) => {
   return (
