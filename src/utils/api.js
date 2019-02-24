@@ -1,6 +1,7 @@
 import {
   _getUsers,
-  _getQuestions
+  _getQuestions,
+  _saveQuestionAnswer
 } from './_DATA'
 
 export const getUsers = () => _getUsers()
@@ -35,6 +36,10 @@ const getQuestion = (id) => (
             })
       })
   })
+)
+
+export const saveQuestionAnswer = ({ authedUser, question, answer }) => (
+  _saveQuestionAnswer({authedUser: authedUser.id, qid: question.id, answer })
 )
 
 export const getUsersAndQuestions = () => (
