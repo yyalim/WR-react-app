@@ -1,5 +1,9 @@
 import { createSelector } from 'reselect'
-import { questionIds, questionWithStatics } from '../utils/selectorHelpers'
+import {
+  questionIds,
+  questionWithStatics,
+  scoreboard
+} from '../utils/selectorHelpers'
 
 const getAuthedUser = state => state.authedUser
 const getQuestions = state => state.questions
@@ -28,4 +32,8 @@ export const getAuthor = createSelector(
 export const getQuestionDetails = createSelector(
   [getAuthedUser, getQuestion],
   (authedUser, question) => questionWithStatics({ authedUser, question })
+)
+
+export const getScoreboard = createSelector(
+  [getUsers], users => scoreboard(users)
 )

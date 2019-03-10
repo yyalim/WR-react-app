@@ -53,3 +53,25 @@ export const questionWithStatics = ({ authedUser, question }) => {
     totalVotes
   }
 }
+
+export const scoreboard = users => {
+  const userIds = Object.keys(users)
+
+  return userIds.map(userId => {
+    const user = users[userId]
+    const answersCount = Object.keys(user.answers).length
+    const questionsCount = user.questions.length
+    const totalPoints = answersCount + questionsCount
+
+    return {
+      ...user,
+      score: {
+        answersCount,
+        questionsCount,
+        totalPoints
+      }
+    }
+  }).sort((a, b) => (
+    b.score.totalPoints - a.score.totalPoints
+  ))
+}

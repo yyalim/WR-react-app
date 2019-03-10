@@ -1,10 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getAuthor } from '../../selectors'
-import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import {
-  Card, CardContent, CardMedia, Typography, Button
+  Card, CardContent, CardMedia, Typography
 } from '@material-ui/core'
 
 const styles = theme => ({
@@ -38,53 +35,34 @@ const styles = theme => ({
   }
 })
 
-const Question = ({ question, author, classes }) => (
+const User = ({ user, classes }) => (
   <Card className={classes.card}>
     <div className={classes.userName}>
       <Typography component="h5" variant="h5">
-        {author.name} asks:
+        {user.name}
       </Typography>
     </div>
     <div className={classes.details}>
       <CardMedia
         className={classes.cover}
-        image={author.avatarURL}
+        image={user.avatarURL}
         title=""
       />
       <div className={classes.info}>
         <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            Would you rather
+          <Typography variant="subtitle1" color="textSecondary">
+            Answered Questions: {user.score.answersCount}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            ...{question.optionOne.text}...
+            Created Questions: {user.score.questionsCount}
           </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            ...{question.optionTwo.text}...
+          <Typography variant="h4" color="textSecondary">
+            Score: {user.score.totalPoints}
           </Typography>
-          <Button
-            variant="outlined"
-            color="primary"
-            component={Link}
-            to={`/question/${question.id}`}
-            className={classes.button}
-          >
-            View Poll
-          </Button>
         </CardContent>
       </div>
     </div>
   </Card>
 )
 
-const mapStateToProps = (state, ownProps) => {
-  const { question } = ownProps
-  return ({
-    author: getAuthor(state, question.id),
-    ...ownProps
-  })
-}
-
-const connectedQuestion = connect(mapStateToProps)(Question)
-
-export default withStyles(styles)(connectedQuestion)
+export default withStyles(styles)(User)
