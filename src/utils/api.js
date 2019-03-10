@@ -1,7 +1,8 @@
 import {
   _getUsers,
   _getQuestions,
-  _saveQuestionAnswer
+  _saveQuestionAnswer,
+  _saveQuestion
 } from './_DATA'
 
 export const getUsers = () => _getUsers()
@@ -42,6 +43,8 @@ export const saveQuestionAnswer = ({ authedUser, question, answer }) => (
   _saveQuestionAnswer({authedUser: authedUser.id, qid: question.id, answer })
 )
 
+export const saveQuestion = question => _saveQuestion(question)
+
 export const getUsersAndQuestions = () => (
   Promise.all([
     getUsers(),
@@ -51,6 +54,7 @@ export const getUsersAndQuestions = () => (
     questions
   }))
 )
+
 
 export const getQuestionAndAuthor = (id) => (
   new Promise((resolve, reject) => {

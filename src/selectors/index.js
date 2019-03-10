@@ -25,7 +25,6 @@ export const getAuthor = createSelector(
   (users, question) => users[question.author]
 )
 
-
 export const getQuestionDetails = createSelector(
   [getAuthedUser, getQuestion],
   (authedUser, question) => questionWithStatics({ authedUser, question })

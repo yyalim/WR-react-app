@@ -1,0 +1,1 @@
+export const isBlank = str => !str || /^\s*$/.test(str)
