@@ -11,6 +11,9 @@ import {
   Button
 } from '@material-ui/core';
 import { handleSaveQuestionAnswer } from '../../actions/questions';
+import Wait from '../Shared/Wait'
+import { startLoading } from '../../utils/componentHelpers'
+
 
 const styles = theme => ({
   formControl: {
@@ -20,14 +23,12 @@ const styles = theme => ({
 
 class AnswerForm extends Component {
   state = {
-    answer: null,
-    isAnswered: false
+    answer: null
   }
 
   handleChange = event => {
     const value = event.target.value
-    this.setState(() => ({ answer: value }))
-
+    this.setState({ answer: value })
   }
 
   handleSubmit = event => {
@@ -37,49 +38,46 @@ class AnswerForm extends Component {
 
     const { authedUser, question, handleSaveQuestionAnswer } = this.props
 
-    handleSaveQuestionAnswer({ question, authedUser, answer }).then(() => {
-      this.setState(() => ({ isAnswered: true }))
-    })
+    startLoading.apply(this)
+    handleSaveQuestionAnswer({ question, authedUser, answer })
   }
 
   render() {
     const { question, classes } = this.props
-    const { isAnswered } = this.state
-
-    if(isAnswered) {
-      return <Redirect to="/" />
-    }
+    const { isLoading } = this.state
 
     return (
-      <form onSubmit={this.handleSubmit} >
-        <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Would You Rather...</FormLabel>
-          <RadioGroup
-            name="answer"
-            value={this.state.answer}
-            onChange={this.handleChange}
+      <Wait isWaiting={isLoading}>
+        <form onSubmit={this.handleSubmit} >
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">Would You Rather...</FormLabel>
+            <RadioGroup
+              name="answer"
+              value={this.state.answer}
+              onChange={this.handleChange}
+            >
+              <FormControlLabel
+                value="optionOne"
+                control={<Radio />}
+                label={question.optionOne.text}
+              />
+              <FormControlLabel
+                value="optionTwo"
+                control={<Radio />}
+                label={question.optionTwo.text}
+              />
+            </RadioGroup>
+          </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={this.state.answer === null}
           >
-            <FormControlLabel
-              value="optionOne"
-              control={<Radio />}
-              label={question.optionOne.text}
-            />
-            <FormControlLabel
-              value="optionTwo"
-              control={<Radio />}
-              label={question.optionTwo.text}
-            />
-          </RadioGroup>
-        </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={this.state.answer === null}
-        >
-          Answer
-        </Button>
-      </form>
+            Answer
+          </Button>
+        </form>
+      </Wait>
     )
   }
 }
