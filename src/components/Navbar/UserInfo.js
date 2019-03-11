@@ -8,9 +8,7 @@ class UserInfo extends Component {
   handleLogoutClick = (event) => {
     event.preventDefault()
 
-    const { dispatch } = this.props
-
-    dispatch(handleLogout())
+    this.props.handleLogout()
   }
 
   render() {
@@ -22,11 +20,16 @@ class UserInfo extends Component {
   }
 }
 
-const mapStateToProps = ({ loadingBar, authedUser }, props) => {
+const mapStateToProps = ({ authedUser }, props) => {
   return {
     user: authedUser,
     ...props
   }
 }
 
-export default connect(mapStateToProps)(UserInfo)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleLogout: () => dispatch(handleLogout()),
+  ...ownProps
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfo)
