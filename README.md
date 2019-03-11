@@ -1,4 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Would You Rather
+
+This application allows its users to create questions with two options and answer them.
+
+## Instalation
+
+Install [Node.js](https://nodejs.org/en/) and (NPM)[https://www.npmjs.com/] if you didn't before. Then navigate to project's root path and run ```npm install``` command on your terminal. When instaliation finish run ```npm start``` command. As soon as it complete compiling source, the project will run on your default browser.
+
+Don't hesitate to message me(@fusuyz) on twitter If you got problems to running it or any other questions.
 
 ## Available Scripts
 
