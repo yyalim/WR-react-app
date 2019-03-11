@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import {
   FormControl,
@@ -23,7 +22,8 @@ const styles = theme => ({
 
 class AnswerForm extends Component {
   state = {
-    answer: null
+    answer: null,
+    isLoading: false
   }
 
   handleChange = event => {
