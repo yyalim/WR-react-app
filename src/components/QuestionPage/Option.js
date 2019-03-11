@@ -15,7 +15,7 @@ const styles  = theme => ({
   }
 })
 
-const Option = ({ text, percentage, isAuthedUserChoice, classes }) => (
+const Option = ({ text, percentage, votersCount, isAuthedUserChoice, classes }) => (
   <div
     className={classNames(
       classes.option,
@@ -23,7 +23,7 @@ const Option = ({ text, percentage, isAuthedUserChoice, classes }) => (
     )}
   >
     <Typography variant="subtitle1" color="textSecondary">
-      ...{text}...
+      ...{text}... - {votersCount} People/Person voted this option
     </Typography>
     <PercentageMeter percent={percentage} />
   </div>
