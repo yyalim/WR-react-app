@@ -15,19 +15,18 @@ const questions = (state = {}, action) => {
     case ANSWER_QUESTION:
       const { question, authedUser, answer } = action
 
-
-      console.log(question)
-
-      return {
+      const obj = {
         ...state,
         [question.id]: {
           ...question,
           [answer]: {
-            votes: [...question[answer]['votes'], authedUser.id],
-            ...question[answer]
+            ...question[answer],
+            votes: [...question[answer]['votes'], authedUser.id]
           }
         }
       }
+      console.log(obj)
+      return obj
     default:
       return state
   }
